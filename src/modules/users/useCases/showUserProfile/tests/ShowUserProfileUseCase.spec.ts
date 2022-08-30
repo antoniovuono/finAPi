@@ -31,8 +31,6 @@ describe("Show User Profile", () => {
 
     const showUserProfile = await showUserProfileUseCase.execute(userAuthenticated.user.id as string)
 
-    console.log(showUserProfile);
-
     expect(showUserProfile).toHaveProperty("id");
   });
 });

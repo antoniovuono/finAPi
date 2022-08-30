@@ -59,7 +59,7 @@ describe("Create Stataments", () => {
 
     const user_id = userAuthenticated.user.id as string;
 
-    await createStatementUseCase.execute({
+    const createDepositStatament = await createStatementUseCase.execute({
       user_id: user_id,
       type: OperationType.DEPOSIT,
       amount: 300,
@@ -75,5 +75,6 @@ describe("Create Stataments", () => {
 
     expect(createWithdrawStatement).toHaveProperty("id");
     expect(createWithdrawStatement.type).toEqual(OperationType.WITHDRAW);
+    expect(createWithdrawStatement.amount).toBeLessThan(createDepositStatament.amount);
   });
 });
