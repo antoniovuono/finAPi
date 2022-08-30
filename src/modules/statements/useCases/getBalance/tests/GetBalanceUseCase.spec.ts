@@ -31,9 +31,9 @@ describe("Get Balance Information", () => {
     await createUserUseCase.execute(userTest);
     const userAuthenticated = await authenticateUserUseCase.execute(userTest);
 
-    const user_id = userAuthenticated.user.id;
+    const user_id = userAuthenticated.user.id as string;
 
-    const getBalanceInformation = await getBalanceUseCase.execute({user_id: user_id as string});
+    const getBalanceInformation = await getBalanceUseCase.execute({user_id: user_id});
 
     expect(getBalanceInformation).toHaveProperty("statement");
     expect(getBalanceInformation).toHaveProperty("balance");
