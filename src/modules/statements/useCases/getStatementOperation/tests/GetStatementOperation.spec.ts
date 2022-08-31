@@ -44,7 +44,6 @@ describe("Get Balance Information", () => {
       description: "Salary for august"
     });
 
-
     const getStatament = await getStatamentOperationsUseCase.execute({
       user_id: user_id,
       statement_id: createDepositStatement.id as string
