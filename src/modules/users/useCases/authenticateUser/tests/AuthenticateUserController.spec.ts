@@ -13,11 +13,11 @@ describe("Authenticate User Controller", () => {
     await connection.runMigrations();
 
     const id = uuid();
-    const password = await hash("admin", 8);
+    const password = await hash("123123", 8);
 
     await connection.query(`
       INSERT INTO USERS(id, name, email, password, created_at, updated_at)
-        values('${id}', 'User Test', 'user@finapi.com', '${password}', 'now()', 'now()')
+        values('${id}', 'User Test', 'antonio@dev.com', '${password}', 'now()', 'now()')
     `);
   });
 
@@ -29,11 +29,10 @@ describe("Authenticate User Controller", () => {
   it("Shoud be able to authenticate a user with a valid email and password", async () => {
     const userAuthenticated = await request(app).post(`/api/v1/sessions`)
     .send({
-      email: "user@finapi.com",
-      password: "admin",
+      email: "antonio@dev.com",
+      password: "123123"
     });
 
-    console.log(userAuthenticated);
 
     expect(userAuthenticated.body).toHaveProperty("token");
     expect(userAuthenticated.status).toBe(200);
