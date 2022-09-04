@@ -33,7 +33,6 @@ describe("Authenticate User Controller", () => {
       password: "123123"
     });
 
-
     expect(userAuthenticated.body).toHaveProperty("token");
     expect(userAuthenticated.status).toBe(200);
   });
