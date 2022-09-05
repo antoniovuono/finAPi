@@ -7,7 +7,7 @@ import { app } from "../../../../../app";
 
 let connection: Connection;
 
-describe("Show User Profile Controller", () => {
+describe("Get Balance Controller", () => {
   beforeAll(async () => {
     connection = await createConnection();
     await connection.runMigrations();
@@ -26,7 +26,7 @@ describe("Show User Profile Controller", () => {
     await connection.close();
   });
 
-  it("Should be able to show a user profile", async () => {
+  it("Should be able to get a statement balance", async () => {
     const userAuthenticated = await request(app).post('/api/v1/sessions')
     .send({
       email: "antonio@dev.com",
@@ -35,11 +35,32 @@ describe("Show User Profile Controller", () => {
 
     const { token } = userAuthenticated.body;
 
-    const userProfile = await request(app).get('/api/v1/profile').set({
+   await request(app).post('/api/v1/statements/deposit')
+    .send({
+      amount: 300,
+      description: "Test deposit"
+    })
+    .set({
       Authorization: `Bearer ${token}`
     });
 
-    expect(userProfile.status).toBe(200);
-    expect(userProfile.body).toHaveProperty("id");
+    await request(app).post('/api/v1/statements/withdraw')
+    .send({
+      amount: 100,
+      description: "Test deposit"
+    })
+    .set({
+      Authorization: `Bearer ${token}`
+    });
+
+
+    const getBalanceStatement = await request(app).get('/api/v1/statements/balance')
+      .set({
+        Authorization: `Bearer ${token}`
+      });
+
+      expect(getBalanceStatement.status).toBe(200);
+      expect(getBalanceStatement.body.statement.length).toBe(2);
+
   });
 });
